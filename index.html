@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0e1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="description" content="iKROX — Plataforma de gestión inteligente para farmacias y negocios en México. Controla inventario, precios, proveedores y ventas desde un solo lugar.">
+<meta name="keywords" content="gestión farmacia, software farmacia México, inventario farmacia, punto de venta, SaaS negocios LATAM">
+<meta property="og:title" content="iKROX — Gestión inteligente para tu negocio">
+<meta property="og:description" content="Controla inventario, precios, proveedores y ventas. Desde $299 MXN/mes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ikrox.com">
+<!-- manifest.json se agrega cuando esté en producción -->
+<title>iKROX — Gestión inteligente para tu negocio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+<style>
+/* ═══════════════════════════════════════════
+   iKROX Landing — Propiedad de iKROX Technologies
+   Desarrollado por Mawddi — ikrox.com
+   ═══════════════════════════════════════════ */
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-deep: #060911;
+  --bg-main: #0a0e1a;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2235;
+  --surface: #1e293b;
+  --border: rgba(99, 179, 237, 0.08);
+  --border-glow: rgba(99, 179, 237, 0.25);
+  --text-primary: #f0f4f8;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #22d3ee;
+  --accent-blue: #3b82f6;
+  --accent-purple: #a78bfa;
+  --accent-green: #34d399;
+  --accent-orange: #fb923c;
+  --accent-pink: #f472b6;
+  --gradient-main: linear-gradient(135deg, #22d3ee 0%, #3b82f6 50%, #a78bfa 100%);
+  --gradient-cta: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+  --gradient-hot: linear-gradient(135deg, #f472b6 0%, #fb923c 100%);
+  --font-main: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-glow: 0 0 40px rgba(34, 211, 238, 0.15);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3);
+  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── PWA Install Banner ── */
+.pwa-banner {
+  position: fixed;
+  bottom: calc(20px + var(--safe-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(120px);
+  z-index: 9999;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-glow), var(--shadow-card);
+  max-width: 420px;
+  width: calc(100% - 32px);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(20px);
+}
+.pwa-banner.visible { transform: translateX(-50%) translateY(0); }
+.pwa-banner-icon {
+  width: 44px; height: 44px;
+  background: var(--gradient-main);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 16px; flex-shrink: 0;
+}
+.pwa-banner-text { flex: 1; }
+.pwa-banner-text strong { display: block; font-size: 14px; font-weight: 600; }
+.pwa-banner-text span { font-size: 12px; color: var(--text-secondary); }
+.pwa-banner-btn {
+  background: var(--gradient-cta);
+  border: none; color: #000; font-weight: 700;
+  padding: 10px 18px; border-radius: var(--radius-sm);
+  font-size: 13px; cursor: pointer; white-space: nowrap;
+  font-family: var(--font-main);
+  transition: var(--transition-fast);
+}
+.pwa-banner-btn:hover { transform: scale(1.05); }
+.pwa-banner-close {
+  position: absolute; top: -8px; right: -8px;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text-muted); font-size: 14px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+
+/* ── Noise Overlay ── */
+.noise {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* ── Grid Background ── */
+.grid-bg {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 70%);
+}
+
+/* ── Orbs ── */
+.orb {
+  position: fixed; border-radius: 50%; filter: blur(100px);
+  pointer-events: none; z-index: 0;
+}
+.orb-1 { width: 500px; height: 500px; background: rgba(34,211,238,0.06); top: -10%; right: -10%; animation: orbFloat 20s ease-in-out infinite; }
+.orb-2 { width: 400px; height: 400px; background: rgba(167,139,250,0.05); bottom: 20%; left: -8%; animation: orbFloat 25s ease-in-out infinite reverse; }
+.orb-3 { width: 350px; height: 350px; background: rgba(59,130,246,0.04); top: 50%; right: 20%; animation: orbFloat 18s ease-in-out infinite 5s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -40px) scale(1.1); }
+  66% { transform: translate(-20px, 30px) scale(0.9); }
+}
+
+/* ── Container ── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  padding: calc(12px + var(--safe-top)) 0 12px;
+  transition: var(--transition-smooth);
+}
+.nav.scrolled {
+  background: rgba(6, 9, 17, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto; padding: 0 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-logo {
+  font-weight: 800; font-size: 24px; letter-spacing: -0.5px;
+  text-decoration: none; color: var(--text-primary);
+  display: flex; align-items: center; gap: 3px;
+}
+.nav-logo span { 
+  background: var(--gradient-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a {
+  text-decoration: none; color: var(--text-secondary);
+  font-size: 14px; font-weight: 500;
+  transition: var(--transition-fast);
+  position: relative;
+}
+.nav-links a:hover { color: var(--text-primary); }
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0;
+  width: 0; height: 2px; background: var(--accent-cyan);
+  transition: var(--transition-fast);
+}
+.nav-links a:hover::after { width: 100%; }
+.nav-cta {
+  background: var(--gradient-cta);
+  color: #000; font-weight: 700;
+  padding: 10px 22px; border-radius: var(--radius-sm);
+  text-decoration: none; font-size: 14px;
+  transition: var(--transition-fast);
+  border: none; cursor: pointer;
+}
+.nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(34,211,238,0.3); }
+
+/* Mobile menu */
+.nav-toggle {
+  display: none; background: none; border: none;
+  color: var(--text-primary); cursor: pointer;
+  width: 44px; height: 44px;
+  align-items: center; justify-content: center;
+}
+.nav-toggle svg { width: 24px; height: 24px; }
+
+.mobile-menu {
+  display: none; position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(6, 9, 17, 0.97);
+  backdrop-filter: blur(20px);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  text-decoration: none; color: var(--text-primary);
+  font-size: 22px; font-weight: 600;
+}
+.mobile-menu-close {
+  position: absolute; top: 20px; right: 20px;
+  background: none; border: none; color: var(--text-primary);
+  width: 44px; height: 44px; font-size: 28px; cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 120px 0 80px;
+  position: relative;
+  text-align: center;
+}
+.hero-content { max-width: 820px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  padding: 8px 18px; border-radius: 50px;
+  font-size: 13px; font-weight: 500;
+  color: var(--accent-cyan);
+  margin-bottom: 28px;
+  animation: fadeUp 0.8s ease-out;
+}
+.hero-badge .pulse {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--accent-green);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+.hero h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1.5px;
+  margin-bottom: 24px;
+  animation: fadeUp 0.8s ease-out 0.1s both;
+}
+.hero h1 .gradient-text {
+  background: var(--gradient-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: var(--text-secondary);
+  max-width: 600px; margin: 0 auto 40px;
+  line-height: 1.7;
+  animation: fadeUp 0.8s ease-out 0.2s both;
+}
+.hero-actions {
+  display: flex; gap: 16px;
+  justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 0.8s ease-out 0.3s both;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gradient-cta);
+  color: #000; font-weight: 700;
+  padding: 16px 32px; border-radius: var(--radius-md);
+  text-decoration: none; font-size: 16px;
+  transition: var(--transition-fast);
+  border: none; cursor: pointer;
+  font-family: var(--font-main);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(34,211,238,0.3);
+}
+.btn-primary svg { width: 20px; height: 20px; }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent;
+  color: var(--text-primary); font-weight: 600;
+  padding: 16px 32px; border-radius: var(--radius-md);
+  text-decoration: none; font-size: 16px;
+  border: 1px solid var(--border-glow);
+  transition: var(--transition-fast);
+  cursor: pointer; font-family: var(--font-main);
+}
+.btn-secondary:hover {
+  background: rgba(34,211,238,0.05);
+  border-color: var(--accent-cyan);
+}
+
+.hero-stats {
+  display: flex; justify-content: center; gap: 48px;
+  margin-top: 56px;
+  animation: fadeUp 0.8s ease-out 0.5s both;
+}
+.hero-stat .number {
+  font-size: 2rem; font-weight: 800;
+  font-family: var(--font-mono);
+  background: var(--gradient-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-stat .label {
+  font-size: 13px; color: var(--text-muted);
+  margin-top: 4px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── PAIN SECTION ── */
+.pain { padding: 100px 0; }
+.pain-header { text-align: center; margin-bottom: 56px; }
+.section-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--accent-cyan);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800; letter-spacing: -1px;
+  line-height: 1.2;
+}
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+.pain-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+.pain-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient-hot);
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+.pain-card:hover { border-color: var(--border-glow); transform: translateY(-4px); }
+.pain-card:hover::before { opacity: 1; }
+.pain-icon {
+  width: 48px; height: 48px;
+  background: rgba(244, 114, 182, 0.1);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 16px;
+}
+.pain-card h3 {
+  font-size: 17px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.pain-card p {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── SOLUTION / FEATURES ── */
+.features { padding: 100px 0; }
+.features-header { text-align: center; margin-bottom: 64px; }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+.feature-card:hover {
+  border-color: var(--border-glow);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-glow);
+}
+.feature-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin-bottom: 20px;
+  position: relative;
+}
+.feature-icon.cyan { background: rgba(34,211,238,0.1); }
+.feature-icon.blue { background: rgba(59,130,246,0.1); }
+.feature-icon.purple { background: rgba(167,139,250,0.1); }
+.feature-icon.green { background: rgba(52,211,153,0.1); }
+.feature-icon.orange { background: rgba(251,146,60,0.1); }
+.feature-icon.pink { background: rgba(244,114,182,0.1); }
+
+.feature-card h3 {
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 10px;
+}
+.feature-card p {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.7;
+}
+.feature-tag {
+  display: inline-block; margin-top: 16px;
+  padding: 4px 12px; border-radius: 50px;
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.feature-tag.ready { background: rgba(52,211,153,0.12); color: var(--accent-green); }
+.feature-tag.soon { background: rgba(251,146,60,0.12); color: var(--accent-orange); }
+
+/* ── DEMO PREVIEW ── */
+.demo { padding: 100px 0; }
+.demo-header { text-align: center; margin-bottom: 48px; }
+.demo-window {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+.demo-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 14px 20px;
+  background: rgba(0,0,0,0.3);
+  border-bottom: 1px solid var(--border);
+}
+.demo-dot { width: 12px; height: 12px; border-radius: 50%; }
+.demo-dot.r { background: #ef4444; }
+.demo-dot.y { background: #f59e0b; }
+.demo-dot.g { background: #22c55e; }
+.demo-url {
+  flex: 1; text-align: center;
+  font-size: 12px; color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.demo-content {
+  padding: 32px;
+  min-height: 350px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 24px;
+}
+.demo-sidebar {
+  display: flex; flex-direction: column; gap: 4px;
+}
+.demo-sidebar-item {
+  padding: 10px 14px; border-radius: var(--radius-sm);
+  font-size: 13px; color: var(--text-secondary);
+  display: flex; align-items: center; gap: 10px;
+  transition: var(--transition-fast);
+}
+.demo-sidebar-item.active {
+  background: rgba(34,211,238,0.1);
+  color: var(--accent-cyan);
+}
+.demo-sidebar-item span { font-size: 16px; }
+.demo-main {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 16px;
+}
+.demo-metric {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+.demo-metric-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+.demo-metric-value { font-size: 22px; font-weight: 800; font-family: var(--font-mono); }
+.demo-metric-value.up { color: var(--accent-green); }
+.demo-metric-value.cyan { color: var(--accent-cyan); }
+.demo-metric-value.orange { color: var(--accent-orange); }
+.demo-chart {
+  grid-column: 1 / -1;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  height: 160px;
+  position: relative;
+  overflow: hidden;
+}
+.demo-chart-title { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
+.chart-bars {
+  display: flex; align-items: flex-end; gap: 8px;
+  height: 110px;
+}
+.chart-bar {
+  flex: 1; border-radius: 4px 4px 0 0;
+  background: var(--gradient-cta);
+  opacity: 0.7;
+  animation: barGrow 1.5s ease-out forwards;
+  transform-origin: bottom;
+}
+@keyframes barGrow {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+@media (max-width: 768px) {
+  .demo-content { grid-template-columns: 1fr; }
+  .demo-sidebar { flex-direction: row; overflow-x: auto; gap: 8px; padding-bottom: 8px; }
+  .demo-main { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .demo-main { grid-template-columns: 1fr; }
+}
+
+/* ── PRICING ── */
+.pricing { padding: 100px 0; }
+.pricing-header { text-align: center; margin-bottom: 56px; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.price-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 36px 28px;
+  text-align: center;
+  transition: var(--transition-smooth);
+  position: relative;
+}
+.price-card:hover { transform: translateY(-4px); border-color: var(--border-glow); }
+.price-card.featured {
+  border-color: var(--accent-cyan);
+  background: linear-gradient(180deg, rgba(34,211,238,0.05) 0%, var(--bg-card) 40%);
+}
+.price-card.featured::before {
+  content: '⚡ MÁS POPULAR';
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  background: var(--gradient-cta);
+  color: #000; font-size: 11px; font-weight: 800;
+  padding: 6px 18px; border-radius: 50px;
+  letter-spacing: 1px;
+}
+.price-name {
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.price-amount {
+  font-size: 3rem; font-weight: 900;
+  font-family: var(--font-mono);
+  margin-bottom: 4px;
+  letter-spacing: -2px;
+}
+.price-amount .currency { font-size: 1.2rem; vertical-align: top; opacity: 0.6; }
+.price-period { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+.price-features { list-style: none; margin-bottom: 28px; text-align: left; }
+.price-features li {
+  padding: 8px 0; font-size: 14px;
+  color: var(--text-secondary);
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.price-features li::before {
+  content: '✓'; color: var(--accent-green);
+  font-weight: 700; font-size: 14px;
+  width: 20px; text-align: center; flex-shrink: 0;
+}
+.price-btn {
+  display: block; width: 100%;
+  padding: 14px; border-radius: var(--radius-md);
+  text-decoration: none; font-weight: 700;
+  font-size: 15px; text-align: center;
+  transition: var(--transition-fast);
+  border: none; cursor: pointer;
+  font-family: var(--font-main);
+}
+.price-btn.primary {
+  background: var(--gradient-cta); color: #000;
+}
+.price-btn.secondary {
+  background: transparent; color: var(--text-primary);
+  border: 1px solid var(--border-glow);
+}
+.price-btn:hover { transform: translateY(-2px); }
+
+/* ── TESTIMONIALS ── */
+.social-proof { padding: 80px 0; }
+.social-proof-header { text-align: center; margin-bottom: 48px; }
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+.testimonial-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+.testimonial-stars { color: #fbbf24; font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+.testimonial-text { font-size: 15px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 18px; font-style: italic; }
+.testimonial-author { display: flex; align-items: center; gap: 12px; }
+.testimonial-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gradient-main);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 16px; color: #000;
+}
+.testimonial-name { font-size: 14px; font-weight: 600; }
+.testimonial-role { font-size: 12px; color: var(--text-muted); }
+
+/* ── FAQ ── */
+.faq { padding: 100px 0; }
+.faq-header { text-align: center; margin-bottom: 48px; }
+.faq-list { max-width: 700px; margin: 0 auto; }
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+.faq-question {
+  width: 100%; padding: 20px 0;
+  background: none; border: none;
+  color: var(--text-primary);
+  font-size: 16px; font-weight: 600;
+  text-align: left; cursor: pointer;
+  font-family: var(--font-main);
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 16px;
+}
+.faq-question .arrow {
+  transition: var(--transition-fast);
+  color: var(--text-muted); font-size: 20px;
+  flex-shrink: 0;
+}
+.faq-item.open .faq-question .arrow { transform: rotate(45deg); color: var(--accent-cyan); }
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+.faq-item.open .faq-answer { max-height: 300px; }
+.faq-answer p {
+  padding: 0 0 20px;
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+/* ── FINAL CTA ── */
+.final-cta {
+  padding: 100px 0;
+  text-align: center;
+}
+.cta-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-xl);
+  padding: 64px 40px;
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient-main);
+}
+.cta-box h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+  font-weight: 800; margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+.cta-box p {
+  color: var(--text-secondary); font-size: 16px;
+  margin-bottom: 32px; max-width: 480px;
+  margin-left: auto; margin-right: auto;
+}
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.cta-whatsapp {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #25D366; color: #fff;
+  font-weight: 700; padding: 16px 32px;
+  border-radius: var(--radius-md);
+  text-decoration: none; font-size: 16px;
+  transition: var(--transition-fast);
+}
+.cta-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.3); }
+.cta-whatsapp svg { width: 22px; height: 22px; }
+
+/* ── FOOTER ── */
+.footer {
+  padding: 48px 0 calc(32px + var(--safe-bottom));
+  border-top: 1px solid var(--border);
+}
+.footer-inner {
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 20px;
+}
+.footer-brand { font-size: 14px; color: var(--text-muted); }
+.footer-brand strong {
+  background: var(--gradient-main);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 700;
+}
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  font-size: 13px; color: var(--text-muted);
+  text-decoration: none; transition: var(--transition-fast);
+}
+.footer-links a:hover { color: var(--text-primary); }
+.footer-copy { width: 100%; text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 20px; }
+
+/* ── WhatsApp FAB ── */
+.wa-fab {
+  position: fixed;
+  bottom: calc(24px + var(--safe-bottom));
+  right: 24px;
+  z-index: 998;
+  width: 60px; height: 60px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+  text-decoration: none;
+  transition: var(--transition-fast);
+  animation: fabPulse 3s ease-in-out infinite;
+}
+.wa-fab:hover { transform: scale(1.1); }
+.wa-fab svg { width: 30px; height: 30px; fill: #fff; }
+
+@keyframes fabPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+  50% { box-shadow: 0 4px 30px rgba(37,211,102,0.6), 0 0 0 8px rgba(37,211,102,0.1); }
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero { padding: 100px 0 60px; }
+  .hero-stats { gap: 24px; flex-wrap: wrap; }
+  .hero-stat .number { font-size: 1.5rem; }
+  .cta-box { padding: 40px 24px; }
+  .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+  .footer-inner { justify-content: center; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+  .pain-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Prefers reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body style="background:#060911;color:#f0f4f8;margin:0;">
+
+<!-- Noise & Grid Background -->
+<div class="noise"></div>
+<div class="grid-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- PWA Install Banner -->
+<div class="pwa-banner" id="pwaBanner">
+  <div class="pwa-banner-icon">iK</div>
+  <div class="pwa-banner-text">
+    <strong>Instala iKROX</strong>
+    <span>Acceso rápido desde tu pantalla de inicio</span>
+  </div>
+  <button class="pwa-banner-btn" id="pwaInstall">Instalar</button>
+  <button class="pwa-banner-close" id="pwaClose">&times;</button>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">i<span>KROX</span></a>
+    <div class="nav-links">
+      <a href="#problemas">El problema</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#demo">Demo</a>
+      <a href="#precios">Precios</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contacto" class="nav-cta">Comenzar</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menú">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="mobileClose">&times;</button>
+  <a href="#problemas" onclick="closeMobile()">El problema</a>
+  <a href="#funciones" onclick="closeMobile()">Funciones</a>
+  <a href="#demo" onclick="closeMobile()">Demo</a>
+  <a href="#precios" onclick="closeMobile()">Precios</a>
+  <a href="#faq" onclick="closeMobile()">FAQ</a>
+  <a href="#contacto" class="nav-cta" onclick="closeMobile()">Comenzar ahora</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <div class="pulse"></div>
+        Plataforma activa — Primeros 20 negocios con 30 días gratis
+      </div>
+      <h1>Tu negocio merece<br><span class="gradient-text">gestión inteligente</span></h1>
+      <p>Inventario, precios, proveedores, ventas y clientes — todo desde un solo lugar. Diseñado para farmacias y negocios independientes en México.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/5215512345678?text=Hola%2C%20quiero%20probar%20iKROX%20para%20mi%20negocio" class="btn-primary" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Quiero probarlo gratis
+        </a>
+        <a href="#demo" class="btn-secondary">
+          Ver demo
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="number">4,600+</div>
+          <div class="label">Productos gestionados</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">7</div>
+          <div class="label">Proveedores conectados</div>
+        </div>
+        <div class="hero-stat">
+          <div class="number">99.9%</div>
+          <div class="label">Uptime garantizado</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PAIN POINTS ═══ -->
+<section class="pain" id="problemas">
+  <div class="container">
+    <div class="pain-header reveal">
+      <div class="section-label">El problema</div>
+      <div class="section-title">¿Te suena familiar?</div>
+    </div>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-icon">💸</div>
+        <h3>Vendes sin saber si ganas</h3>
+        <p>Sin comparar precios con proveedores, podrías estar vendiendo productos con margen negativo sin darte cuenta.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-icon">📋</div>
+        <h3>Excel interminable</h3>
+        <p>Hojas de cálculo que nadie entiende, datos duplicados, y horas perdidas actualizando precios a mano.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-icon">🔍</div>
+        <h3>La competencia te gana</h3>
+        <p>Mientras tú revisas precios uno por uno, las cadenas grandes ajustan los suyos automáticamente.</p>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-icon">📦</div>
+        <h3>Proveedores sin control</h3>
+        <p>Cada proveedor con su formato distinto. Comparar ofertas es un trabajo de medio día que nadie quiere hacer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURES ═══ -->
+<section class="features" id="funciones">
+  <div class="container">
+    <div class="features-header reveal">
+      <div class="section-label">La solución</div>
+      <div class="section-title">Todo lo que tu negocio necesita</div>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon cyan">📊</div>
+        <h3>Dashboard en tiempo real</h3>
+        <p>Visualiza ventas, márgenes, stock bajo y tendencias de tu negocio al instante. Datos que antes tardabas horas en recopilar.</p>
+        <span class="feature-tag ready">✓ Disponible</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon blue">💲</div>
+        <h3>Comparador de precios</h3>
+        <p>Compara automáticamente tus precios contra proveedores y competencia. Identifica dónde estás perdiendo dinero.</p>
+        <span class="feature-tag ready">✓ Disponible</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon purple">🧠</div>
+        <h3>Precios inteligentes</h3>
+        <p>El sistema ajusta precios automáticamente para mantener tu margen arriba del 20%. Sin trabajo manual.</p>
+        <span class="feature-tag soon">Próximamente</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon green">🏪</div>
+        <h3>Portal de proveedores</h3>
+        <p>Tus proveedores suben sus listas directamente. Se comparan al instante con tu inventario. Cero captura manual.</p>
+        <span class="feature-tag ready">✓ Disponible</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon orange">🛍️</div>
+        <h3>Tienda online</h3>
+        <p>Tu catálogo en línea con precios actualizados en tiempo real. Tus clientes apartan, piden y pagan desde su celular.</p>
+        <span class="feature-tag soon">Próximamente</span>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon pink">📱</div>
+        <h3>Funciona en todo</h3>
+        <p>PWA que se instala como app. Celular, tablet, computadora. Funciona incluso sin conexión para punto de venta.</p>
+        <span class="feature-tag ready">✓ Disponible</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DEMO ═══ -->
+<section class="demo" id="demo">
+  <div class="container">
+    <div class="demo-header reveal">
+      <div class="section-label">Vista previa</div>
+      <div class="section-title">Así se ve por dentro</div>
+    </div>
+    <div class="demo-window reveal">
+      <div class="demo-bar">
+        <div class="demo-dot r"></div>
+        <div class="demo-dot y"></div>
+        <div class="demo-dot g"></div>
+        <div class="demo-url">app.ikrox.com/dashboard</div>
+      </div>
+      <div class="demo-content">
+        <div class="demo-sidebar">
+          <div class="demo-sidebar-item active"><span>📊</span> Dashboard</div>
+          <div class="demo-sidebar-item"><span>📦</span> Inventario</div>
+          <div class="demo-sidebar-item"><span>💲</span> Precios</div>
+          <div class="demo-sidebar-item"><span>🏪</span> Proveedores</div>
+          <div class="demo-sidebar-item"><span>🛍️</span> Tienda</div>
+          <div class="demo-sidebar-item"><span>⚙️</span> Config</div>
+        </div>
+        <div class="demo-main">
+          <div class="demo-metric">
+            <div class="demo-metric-label">Ventas hoy</div>
+            <div class="demo-metric-value up">$12,450</div>
+          </div>
+          <div class="demo-metric">
+            <div class="demo-metric-label">Productos</div>
+            <div class="demo-metric-value cyan">4,651</div>
+          </div>
+          <div class="demo-metric">
+            <div class="demo-metric-label">Margen promedio</div>
+            <div class="demo-metric-value orange">24.8%</div>
+          </div>
+          <div class="demo-chart">
+            <div class="demo-chart-title">Ventas últimos 7 días</div>
+            <div class="chart-bars" id="chartBars"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<section class="pricing" id="precios">
+  <div class="container">
+    <div class="pricing-header reveal">
+      <div class="section-label">Precios</div>
+      <div class="section-title">Sin letras chiquitas. Sin sorpresas.</div>
+      <p style="color:var(--text-secondary); margin-top:12px; font-size:15px;">Todos los planes incluyen soporte por WhatsApp y actualizaciones</p>
+    </div>
+    <div class="pricing-grid">
+      <!-- Starter -->
+      <div class="price-card reveal">
+        <div class="price-name">Starter</div>
+        <div class="price-amount"><span class="currency">$</span>299</div>
+        <div class="price-period">MXN / mes</div>
+        <ul class="price-features">
+          <li>Inventario completo</li>
+          <li>Dashboard en tiempo real</li>
+          <li>Hasta 3 usuarios</li>
+          <li>Tema claro y oscuro</li>
+          <li>Soporte por WhatsApp</li>
+        </ul>
+        <a href="https://wa.me/5215512345678?text=Quiero%20el%20plan%20Starter%20de%20iKROX" class="price-btn secondary" target="_blank" rel="noopener">Comenzar</a>
+      </div>
+      <!-- Business -->
+      <div class="price-card featured reveal">
+        <div class="price-name">Business</div>
+        <div class="price-amount"><span class="currency">$</span>699</div>
+        <div class="price-period">MXN / mes</div>
+        <ul class="price-features">
+          <li>Todo de Starter</li>
+          <li>Comparador de precios</li>
+          <li>Portal de proveedores</li>
+          <li>Hasta 10 usuarios</li>
+          <li>Temas estándar incluidos</li>
+          <li>Reportes exportables</li>
+        </ul>
+        <a href="https://wa.me/5215512345678?text=Quiero%20el%20plan%20Business%20de%20iKROX" class="price-btn primary" target="_blank" rel="noopener">Comenzar gratis</a>
+      </div>
+      <!-- Pro -->
+      <div class="price-card reveal">
+        <div class="price-name">Pro</div>
+        <div class="price-amount"><span class="currency">$</span>1,299</div>
+        <div class="price-period">MXN / mes</div>
+        <ul class="price-features">
+          <li>Todo de Business</li>
+          <li>Smart Pricing automático</li>
+          <li>Tienda online</li>
+          <li>Usuarios ilimitados</li>
+          <li>Todos los temas</li>
+          <li>Soporte prioritario</li>
+        </ul>
+        <a href="https://wa.me/5215512345678?text=Quiero%20el%20plan%20Pro%20de%20iKROX" class="price-btn secondary" target="_blank" rel="noopener">Comenzar</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="social-proof">
+  <div class="container">
+    <div class="social-proof-header reveal">
+      <div class="section-label">Resultados reales</div>
+      <div class="section-title">Lo que dicen nuestros usuarios</div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"Descubrí que tenía 48 productos con margen negativo. En una semana ajusté precios y recuperé más de $15,000 al mes."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">R</div>
+          <div>
+            <div class="testimonial-name">Roberto M.</div>
+            <div class="testimonial-role">Farmacia independiente, Veracruz</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"Antes tardaba 3 horas comparando precios de proveedores. Ahora lo hace solo y me avisa cuando hay mejor oferta."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">L</div>
+          <div>
+            <div class="testimonial-name">Laura C.</div>
+            <div class="testimonial-role">Farmacia y perfumería, CDMX</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-text">"Se instala en el celular como app. Mis empleados lo usan sin capacitación. Muy intuitivo y rápido."</div>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div>
+            <div class="testimonial-name">Antonio P.</div>
+            <div class="testimonial-role">Tienda de abarrotes, Puebla</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="faq-header reveal">
+      <div class="section-label">Preguntas frecuentes</div>
+      <div class="section-title">Resolvemos tus dudas</div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-question">¿Necesito instalar algo? <span class="arrow">+</span></button>
+        <div class="faq-answer"><p>No. iKROX funciona desde el navegador y se instala como app en tu celular con un solo toque. No necesitas descargar nada de tiendas de aplicaciones.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">¿Funciona para negocios que no son farmacias? <span class="arrow">+</span></button>
+        <div class="faq-answer"><p>Sí. Aunque nuestro piloto es una farmacia, iKROX funciona para cualquier negocio con inventario: abarrotes, papelerías, ferreterías, tiendas de ropa, y más.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">¿Mis datos están seguros? <span class="arrow">+</span></button>
+        <div class="faq-answer"><p>Absolutamente. Cada negocio tiene sus datos completamente aislados. Usamos cifrado, HTTPS, y servidores en la nube con respaldo automático. Nadie más puede ver tu información.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">¿Puedo probarlo antes de pagar? <span class="arrow">+</span></button>
+        <div class="faq-answer"><p>Sí. Los primeros 20 negocios que se registren tienen 30 días completamente gratis del plan Business. Sin tarjeta de crédito, sin compromisos.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">¿Qué pasa si necesito ayuda? <span class="arrow">+</span></button>
+        <div class="faq-answer"><p>Todos los planes incluyen soporte directo por WhatsApp. Te respondemos en menos de 2 horas en horario laboral. También tenemos tutoriales y guías dentro de la plataforma.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-question">¿Puedo cancelar cuando quiera? <span class="arrow">+</span></button>
+        <div class="faq-answer"><p>Sí. Sin contratos, sin penalizaciones. Cancelas cuando quieras y tus datos siempre son exportables en CSV, Excel o PDF.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═══ -->
+<section class="final-cta" id="contacto">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Deja de perder dinero.<br>Empieza hoy.</h2>
+      <p>30 días gratis. Sin tarjeta. Sin compromisos. Configura tu negocio en 10 minutos.</p>
+      <div class="cta-actions">
+        <a href="https://wa.me/5215512345678?text=Hola%2C%20quiero%20probar%20iKROX%20gratis%20para%20mi%20negocio" class="cta-whatsapp" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Escribir por WhatsApp
+        </a>
+        <a href="mailto:hola@ikrox.com" class="btn-secondary">hola@ikrox.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand"><strong>iKROX</strong> Technologies — México</div>
+      <div class="footer-links">
+        <a href="#">Privacidad</a>
+        <a href="#">Términos</a>
+        <a href="mailto:hola@ikrox.com">Contacto</a>
+      </div>
+      <div class="footer-copy">© 2026 iKROX Technologies. Todos los derechos reservados. Desarrollado por Mawddi.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp FAB -->
+<a href="https://wa.me/5215512345678?text=Hola%2C%20me%20interesa%20iKROX" class="wa-fab" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+</a>
+
+<script>
+/* ═══════════════════════════════════════════
+   iKROX Landing — Scripts
+   Propiedad de iKROX Technologies / Mawddi
+   ═══════════════════════════════════════════ */
+
+// ── Nav scroll ──
+const navbar = document.getElementById('navbar');
+let lastScroll = 0;
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+// ── Mobile menu ──
+const navToggle = document.getElementById('navToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileClose = document.getElementById('mobileClose');
+navToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+mobileClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+// ── FAQ accordion ──
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!wasOpen) item.classList.add('open');
+  });
+});
+
+// ── Scroll reveal ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── Demo chart bars ──
+const chartBars = document.getElementById('chartBars');
+const barHeights = [65, 45, 78, 55, 90, 72, 85];
+barHeights.forEach((h, i) => {
+  const bar = document.createElement('div');
+  bar.className = 'chart-bar';
+  bar.style.height = h + '%';
+  bar.style.animationDelay = (i * 0.1) + 's';
+  chartBars.appendChild(bar);
+});
+
+// ── PWA Install ──
+let deferredPrompt;
+const pwaBanner = document.getElementById('pwaBanner');
+const pwaInstall = document.getElementById('pwaInstall');
+const pwaClose = document.getElementById('pwaClose');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => pwaBanner.classList.add('visible'), 3000);
+});
+
+pwaInstall.addEventListener('click', async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    pwaBanner.classList.remove('visible');
+  }
+});
+
+pwaClose.addEventListener('click', () => pwaBanner.classList.remove('visible'));
+
+// Show PWA banner for demo (if no native prompt after 5s)
+setTimeout(() => {
+  if (!deferredPrompt && !window.matchMedia('(display-mode: standalone)').matches) {
+    pwaBanner.classList.add('visible');
+    // Auto-hide after 8 seconds
+    setTimeout(() => pwaBanner.classList.remove('visible'), 8000);
+  }
+}, 5000);
+
+// ── Smooth scroll for anchor links ──
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      const offset = 80;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+
+// ── Counter animation for hero stats ──
+function animateCounters() {
+  document.querySelectorAll('.hero-stat .number').forEach(counter => {
+    const text = counter.textContent;
+    const hasPlus = text.includes('+');
+    const hasPercent = text.includes('%');
+    const numStr = text.replace(/[^0-9.]/g, '');
+    const target = parseFloat(numStr);
+    const isDecimal = numStr.includes('.');
+    
+    if (isNaN(target)) return;
+    
+    let current = 0;
+    const duration = 2000;
+    const start = performance.now();
+    
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      current = target * ease;
+      
+      let display;
+      if (isDecimal) {
+        display = current.toFixed(1);
+      } else if (target >= 1000) {
+        display = Math.round(current).toLocaleString('en-US');
+      } else {
+        display = Math.round(current).toString();
+      }
+      
+      counter.textContent = display + (hasPercent ? '%' : '') + (hasPlus ? '+' : '');
+      
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    
+    requestAnimationFrame(update);
+  });
+}
+
+// Trigger counter animation when hero is visible
+const heroObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    animateCounters();
+    heroObserver.disconnect();
+  }
+}, { threshold: 0.3 });
+heroObserver.observe(document.querySelector('.hero'));
+</script>
+</body>
+</html>
