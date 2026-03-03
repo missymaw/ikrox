@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0A0E1A">
+<meta name="description" content="iKROX - Plataforma digital de negocios inteligentes">
+<title>iKROX</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden}
+body{background:#060810;font-family:'Outfit',-apple-system,BlinkMacSystemFont,sans-serif;color:#E2E8F0;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{display:none}
+input::placeholder{color:#4B5563}
+@keyframes tIn{from{opacity:0;transform:translateY(18px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes slideRight{from{transform:translateX(100%);opacity:0.5}to{transform:translateX(0);opacity:1}}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes glow{0%,100%{opacity:0.25}50%{opacity:0.45}}
+@keyframes bellShake{0%{transform:rotate(0)}15%{transform:rotate(12deg)}30%{transform:rotate(-10deg)}45%{transform:rotate(8deg)}60%{transform:rotate(-6deg)}75%{transform:rotate(3deg)}100%{transform:rotate(0)}}
+@keyframes notifSlide{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
+.tile{display:flex;flex-direction:column;align-items:center;gap:10px;background:none;border:none;cursor:pointer;padding:14px 6px;border-radius:20px;position:relative;transition:transform 0.18s cubic-bezier(0.34,1.56,0.64,1);outline:none;-webkit-tap-highlight-color:transparent}
+.tile:active{transform:scale(0.85)!important}
+.tile-icon{width:62px;height:62px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;transition:box-shadow 0.3s}
+.tile-name{color:#C9CDD3;font-size:11px;font-weight:500;text-align:center;line-height:1.2;max-width:76px}
+.badge{position:absolute;top:-5px;right:-8px;color:#fff;font-size:8px;font-weight:800;letter-spacing:0.5px;padding:2px 7px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.4)}
+.status-chip{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);color:#fff;font-size:7px;font-weight:700;letter-spacing:0.7px;padding:2px 8px;border-radius:4px;white-space:nowrap}
+.notif-badge{position:absolute;top:-3px;right:-3px;min-width:16px;height:16px;border-radius:8px;background:#EF4444;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px;box-shadow:0 2px 6px rgba(239,68,68,0.4)}
+.featured-btn{flex:0 0 auto;display:flex;align-items:center;gap:9px;border-radius:13px;padding:9px 14px 9px 9px;cursor:pointer;white-space:nowrap;border:none;transition:transform 0.2s}
+.featured-btn:active{transform:scale(0.95)}
+.cat-btn{padding:7px 13px;border-radius:9px;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;transition:all 0.2s;outline:none;font-family:inherit}
+.search-result{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:13px;background:rgba(255,255,255,0.025);border:1px solid rgba(255,255,255,0.035);cursor:pointer;text-align:left;width:100%;font-family:inherit;transition:background 0.2s}
+.search-result:active{background:rgba(255,255,255,0.06)}
+.notif-item{display:flex;align-items:flex-start;gap:12px;padding:12px;border-radius:14px;border:1px solid rgba(255,255,255,0.04);transition:background 0.2s;cursor:pointer}
+.notif-item:active{background:rgba(255,255,255,0.04)}
+.notif-unread{background:rgba(139,92,246,0.06);border-color:rgba(139,92,246,0.15)}
+.perm-btn{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);cursor:pointer;width:100%;text-align:left;font-family:inherit;transition:all 0.2s}
+.perm-btn:active{background:rgba(255,255,255,0.06)}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+// iKROX LAUNCHER v5 — Compiled HTML
+// Sistema de notificaciones centralizadas + permisos
+// © 2026 Mawddi / iKROX Technologies — missy@ikrox.com
+// ═══════════════════════════════════════════════════════════════
+
+const APPS=[
+{id:"xanat",name:"Xanat",icon:"🌺",gr:["#8B5CF6","#6D28D9"],cat:"business",tag:"Punto de venta inteligente",status:"live",featured:true},
+{id:"cvcard",name:"CVCard Pro",icon:"💼",gr:["#059669","#047857"],cat:"services",tag:"Tarjetas digitales profesionales",status:"live",badge:"$",featured:true},
+{id:"ai-agent",name:"iKROX AI",icon:"🤖",gr:["#7C3AED","#5B21B6"],cat:"ai",tag:"Agente IA especializado para tu negocio",status:"coming",badge:"IA"},
+{id:"social",name:"Social Hub",icon:"📱",gr:["#E11D48","#BE123C"],cat:"services",tag:"Gestión automática de redes sociales",status:"coming"},
+{id:"meetings",name:"Meetings",icon:"🎙️",gr:["#0EA5E9","#0284C7"],cat:"ai",tag:"Transcripción y notas inteligentes",status:"coming"},
+{id:"themes",name:"Temas",icon:"🎨",gr:["#A855F7","#9333EA"],cat:"tools",tag:"Personaliza tu experiencia visual",status:"preview"},
+{id:"builder",name:"Constructor",icon:"🏗️",gr:["#F59E0B","#D97706"],cat:"business",tag:"Crea tu negocio digital",status:"live",featured:true},
+{id:"tepetlapa",name:"Tepetlapa",icon:"🏘️",gr:["#14B8A6","#0D9488"],cat:"services",tag:"Comunidad local zona Coapa",status:"coming"},
+{id:"app-maker",name:"App Builder",icon:"🧩",gr:["#DC2626","#B91C1C"],cat:"tools",tag:"Diseña tus propias mini-apps",status:"coming"},
+{id:"settings",name:"Ajustes",icon:"⚙️",gr:["#475569","#334155"],cat:"system",tag:"Configuración de la plataforma",status:"live"},
+{id:"help",name:"Soporte",icon:"💬",gr:["#6366F1","#4F46E5"],cat:"system",tag:"Ayuda, guías y contacto",status:"live"},
+];
+
+const PLANS=[
+{id:"starter",name:"Starter",price:"$299",period:"/mes MXN",color:"#06B6D4",features:["1 negocio","1 usuario","POS básico","500 productos","Soporte email"],cta:"Empezar gratis 14 días"},
+{id:"pro",name:"Pro",price:"$599",period:"/mes MXN",color:"#8B5CF6",popular:true,features:["3 negocios","5 usuarios","POS completo","Productos ilimitados","IA incluida","Soporte prioritario"],cta:"Prueba Pro 14 días"},
+{id:"enterprise",name:"Enterprise",price:"$1,499",period:"/mes MXN",color:"#F59E0B",features:["Negocios ilimitados","Usuarios ilimitados","Todo incluido","API completa","IA dedicada","Soporte 24/7","Personalización total"],cta:"Contactar ventas"},
+];
+
+const PROFILES=[
+{icon:"👔",title:"Propietario",desc:"Crea y administra múltiples negocios, empresas y sucursales"},
+{icon:"🚀",title:"Emprendedor",desc:"Lanza tu primer negocio digital con herramientas profesionales"},
+{icon:"📢",title:"Anunciante",desc:"Publica anuncios y promociones en la red iKROX"},
+];
+
+// ── Notificaciones de ejemplo (en producción viene de Supabase Realtime) ──
+const NOTIFICATIONS=[
+{id:1,app:"xanat",appIcon:"🌺",appColor:"#8B5CF6",title:"Stock bajo",body:"Paracetamol 500mg tiene solo 3 unidades",time:"Hace 5 min",unread:true},
+{id:2,app:"xanat",appIcon:"🌺",appColor:"#8B5CF6",title:"Venta completada",body:"Ticket #451 — $285.00 MXN",time:"Hace 12 min",unread:true},
+{id:3,app:"cvcard",appIcon:"💼",appColor:"#059669",title:"Nueva vista",body:"Tu tarjeta fue vista 3 veces hoy",time:"Hace 1 hora",unread:false},
+{id:4,app:"social",appIcon:"📱",appColor:"#E11D48",title:"Post programado",body:"Tu publicación de Instagram se publicará a las 6 PM",time:"Hace 2 horas",unread:false},
+{id:5,app:"system",appIcon:"⬡",appColor:"#6366F1",title:"Actualización disponible",body:"iKROX v1.2 está lista para instalar",time:"Ayer",unread:false},
+];
+
+// ── Permisos del dispositivo ──
+const PERMISSIONS=[
+{id:"notifications",icon:"🔔",name:"Notificaciones",desc:"Recibe alertas de todas tus apps en tiempo real",required:true,status:"pending"},
+{id:"camera",icon:"📷",name:"Cámara",desc:"Escanear códigos de barras y tomar fotos de productos",required:false,status:"pending"},
+{id:"microphone",icon:"🎤",name:"Micrófono",desc:"Búsqueda por voz y transcripción de reuniones",required:false,status:"pending"},
+{id:"location",icon:"📍",name:"Ubicación",desc:"Envíos, sucursales cercanas y servicios locales",required:false,status:"pending"},
+{id:"storage",icon:"💾",name:"Almacenamiento",desc:"Guardar datos offline y archivos de respaldo",required:false,status:"pending"},
+];
+
+const CATS=[{id:"all",l:"Todo"},{id:"business",l:"Negocios"},{id:"services",l:"Servicios"},{id:"ai",l:"IA"},{id:"tools",l:"Herramientas"}];
+const STATUS_MAP={live:null,coming:{t:"PRONTO",bg:"rgba(100,116,139,0.85)"},preview:{t:"PREVIEW",bg:"rgba(139,92,246,0.85)"}};
+
+// ── State ──
+let state={
+  filter:"all",
+  searchOpen:false,
+  searchQ:"",
+  selectedApp:null,
+  showConstructor:false,
+  showInstall:true,
+  showNotifs:false,
+  showPerms:false,
+  constructorTab:"profiles",
+  notifications:NOTIFICATIONS,
+  permissions:PERMISSIONS.map(p=>({...p}))
+};
+
+function setState(patch){
+  Object.assign(state,typeof patch==='function'?patch(state):patch);
+  render();
+}
+
+// ── Helpers ──
+function el(tag,attrs,...children){
+  const e=document.createElement(tag);
+  if(attrs)Object.entries(attrs).forEach(([k,v])=>{
+    if(k==='style'&&typeof v==='object')Object.assign(e.style,v);
+    else if(k.startsWith('on'))e.addEventListener(k.slice(2).toLowerCase(),v);
+    else if(k==='className')e.className=v;
+    else if(k==='innerHTML')e.innerHTML=v;
+    else e.setAttribute(k,v);
+  });
+  children.flat(Infinity).forEach(c=>{
+    if(c==null||c===false)return;
+    e.appendChild(typeof c==='string'||typeof c==='number'?document.createTextNode(c):c);
+  });
+  return e;
+}
+
+function getTime(){
+  const now=new Date();
+  return{
+    h:now.getHours().toString().padStart(2,'0'),
+    m:now.getMinutes().toString().padStart(2,'0'),
+    d:now.toLocaleDateString('es-MX',{weekday:'long',day:'numeric',month:'long'})
+  };
+}
+
+// ── Permission API helpers ──
+async function requestPermission(permId){
+  try{
+    if(permId==='notifications'&&'Notification' in window){
+      const r=await Notification.requestPermission();
+      return r==='granted'?'granted':'denied';
+    }
+    if(permId==='camera'||permId==='microphone'){
+      const constraints=permId==='camera'?{video:true}:{audio:true};
+      const stream=await navigator.mediaDevices.getUserMedia(constraints);
+      stream.getTracks().forEach(t=>t.stop());
+      return 'granted';
+    }
+    if(permId==='location'&&'geolocation' in navigator){
+      return new Promise(res=>{
+        navigator.geolocation.getCurrentPosition(()=>res('granted'),()=>res('denied'),{timeout:5000});
+      });
+    }
+    if(permId==='storage'&&navigator.storage&&navigator.storage.persist){
+      const r=await navigator.storage.persist();
+      return r?'granted':'denied';
+    }
+  }catch(e){return 'denied';}
+  return 'pending';
+}
+
+// ── Render: Tiles ──
+function renderTile(app,i){
+  const s=STATUS_MAP[app.status];
+  const notifCount=state.notifications.filter(n=>n.app===app.id&&n.unread).length;
+  const iconDiv=el('div',{style:{position:'relative'}},[
+    el('div',{className:'tile-icon',style:{background:`linear-gradient(140deg,${app.gr[0]},${app.gr[1]})`,boxShadow:`0 6px 20px ${app.gr[0]}40`}},app.icon),
+    app.badge?el('div',{className:'badge',style:{background:app.badge==='IA'?'linear-gradient(135deg,#7C3AED,#EC4899)':'linear-gradient(135deg,#10B981,#059669)'}},app.badge):null,
+    notifCount>0?el('div',{className:'notif-badge'},String(notifCount)):null,
+    s?el('div',{className:'status-chip',style:{background:s.bg}},s.t):null,
+  ]);
+  return el('button',{className:'tile',style:{animation:`tIn 0.45s cubic-bezier(0.16,1,0.3,1) ${0.12+i*0.04}s both`},onClick:()=>handleTap(app)},[
+    iconDiv,el('span',{className:'tile-name'},app.name)
+  ]);
+}
+
+// ── Render: Top bar ──
+function renderTopBar(){
+  const unreadCount=state.notifications.filter(n=>n.unread).length;
+  return el('div',{style:{display:'flex',alignItems:'center',gap:'8px',marginBottom:'24px',animation:'tIn 0.4s ease'}},[
+    el('div',{style:{fontSize:'17px',fontWeight:800,letterSpacing:'-0.5px',flexShrink:0,background:'linear-gradient(135deg,#8B5CF6,#06B6D4)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent'}},'iKROX'),
+    // Search bar inline
+    el('button',{style:{flex:1,display:'flex',alignItems:'center',gap:'6px',background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.07)',borderRadius:'10px',padding:'8px 10px',cursor:'text',minWidth:0,fontFamily:'inherit'},onClick:()=>setState({searchOpen:true})},[
+      el('span',{style:{fontSize:'13px',opacity:0.35,flexShrink:0}},'🔍'),
+      el('span',{style:{color:'#3B4252',fontSize:'12px',fontWeight:400,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',flex:1,textAlign:'left'}},'Buscar...'),
+      el('span',{style:{fontSize:'13px',opacity:0.3,flexShrink:0}},'🎤'),
+    ]),
+    // Notifications bell
+    el('button',{style:{width:'34px',height:'34px',borderRadius:'10px',flexShrink:0,background:'rgba(255,255,255,0.04)',border:'1px solid rgba(255,255,255,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'14px',cursor:'pointer',position:'relative',animation:unreadCount>0?'bellShake 0.6s ease':'none'},onClick:()=>setState({showNotifs:true})},[
+      document.createTextNode('🔔'),
+      unreadCount>0?el('div',{className:'notif-badge',style:{top:'-4px',right:'-4px'}},String(unreadCount)):null
+    ]),
+    // Avatar
+    el('div',{style:{width:'34px',height:'34px',borderRadius:'10px',flexShrink:0,background:'linear-gradient(135deg,#8B5CF6,#6D28D9)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'12px',color:'#fff',fontWeight:800,cursor:'pointer'},onClick:()=>setState({showPerms:true})},'M'),
+  ]);
+}
+
+// ── Render: Notifications Panel ──
+function renderNotifications(){
+  if(!state.showNotifs)return null;
+  return el('div',{style:{position:'fixed',inset:0,zIndex:280,background:'rgba(5,8,18,0.97)',backdropFilter:'blur(30px)',animation:'fadeIn 0.15s ease',display:'flex',flexDirection:'column'}},[
+    // Header
+    el('div',{style:{padding:'14px 14px 12px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(255,255,255,0.05)'}},[
+      el('div',{style:{display:'flex',alignItems:'center',gap:'10px'}},[
+        el('button',{style:{background:'rgba(255,255,255,0.06)',border:'none',color:'#94A3B8',fontSize:'18px',cursor:'pointer',width:'38px',height:'38px',borderRadius:'11px',display:'flex',alignItems:'center',justifyContent:'center'},onClick:()=>setState({showNotifs:false})},'←'),
+        el('div',{style:{color:'#F1F5F9',fontSize:'16px',fontWeight:700}},'Notificaciones'),
+        state.notifications.some(n=>n.unread)?el('div',{style:{background:'#EF4444',color:'#fff',fontSize:'10px',fontWeight:700,padding:'2px 8px',borderRadius:'8px'}},state.notifications.filter(n=>n.unread).length+' nuevas'):null,
+      ]),
+      state.notifications.some(n=>n.unread)?el('button',{style:{background:'none',border:'none',color:'#8B5CF6',fontSize:'12px',fontWeight:600,cursor:'pointer',fontFamily:'inherit'},onClick:()=>{state.notifications.forEach(n=>n.unread=false);setState({notifications:state.notifications})}},'Marcar leídas'):null,
+    ]),
+    // Notification list
+    el('div',{style:{flex:1,overflowY:'auto',padding:'10px 14px'}},[
+      state.notifications.length===0?
+        el('div',{style:{textAlign:'center',paddingTop:'60px'}},[
+          el('div',{style:{fontSize:'40px',marginBottom:'12px',opacity:0.2}},'🔔'),
+          el('div',{style:{color:'#374151',fontSize:'13px'}},'Sin notificaciones'),
+        ]):
+        el('div',{style:{display:'flex',flexDirection:'column',gap:'6px'}},
+          state.notifications.map((n,i)=>
+            el('div',{className:`notif-item ${n.unread?'notif-unread':''}`,style:{animation:`notifSlide 0.3s ease ${i*0.05}s both`}},[
+              // App icon
+              el('div',{style:{width:'38px',height:'38px',borderRadius:'10px',background:`linear-gradient(135deg,${n.appColor},${n.appColor}CC)`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'17px',flexShrink:0}},n.appIcon),
+              // Content
+              el('div',{style:{flex:1,minWidth:0}},[
+                el('div',{style:{display:'flex',alignItems:'center',gap:'6px',marginBottom:'3px'}},[
+                  el('span',{style:{color:'#E2E8F0',fontSize:'13px',fontWeight:600}},n.title),
+                  n.unread?el('div',{style:{width:'6px',height:'6px',borderRadius:'50%',background:n.appColor,flexShrink:0}}):null,
+                ]),
+                el('div',{style:{color:'#64748B',fontSize:'11px',lineHeight:'1.4',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},n.body),
+                el('div',{style:{display:'flex',alignItems:'center',gap:'6px',marginTop:'4px'}},[
+                  el('span',{style:{color:'#374151',fontSize:'10px'}},n.app==='system'?'iKROX':APPS.find(a=>a.id===n.app)?.name||n.app),
+                  el('span',{style:{color:'#1E293B',fontSize:'10px'}},'·'),
+                  el('span',{style:{color:'#374151',fontSize:'10px'}},n.time),
+                ]),
+              ]),
+            ])
+          )
+        ),
+    ]),
+    // Footer info
+    el('div',{style:{padding:'12px 14px',borderTop:'1px solid rgba(255,255,255,0.04)',textAlign:'center'}},[
+      el('div',{style:{color:'#2D3340',fontSize:'10px'}},'Las notificaciones se envían desde cada app a través de iKROX'),
+    ]),
+  ]);
+}
+
+// ── Render: Permissions Panel ──
+function renderPermissions(){
+  if(!state.showPerms)return null;
+  return el('div',{style:{position:'fixed',inset:0,zIndex:280,background:'rgba(5,8,18,0.97)',backdropFilter:'blur(30px)',animation:'fadeIn 0.15s ease',display:'flex',flexDirection:'column'}},[
+    // Header
+    el('div',{style:{padding:'14px',display:'flex',alignItems:'center',gap:'10px',borderBottom:'1px solid rgba(255,255,255,0.05)'}},[
+      el('button',{style:{background:'rgba(255,255,255,0.06)',border:'none',color:'#94A3B8',fontSize:'18px',cursor:'pointer',width:'38px',height:'38px',borderRadius:'11px',display:'flex',alignItems:'center',justifyContent:'center'},onClick:()=>setState({showPerms:false})},'←'),
+      el('div',{},[
+        el('div',{style:{color:'#F1F5F9',fontSize:'16px',fontWeight:700}},'Permisos del dispositivo'),
+        el('div',{style:{color:'#4B5563',fontSize:'11px'}},'Solo se activan cuando los necesitas'),
+      ]),
+    ]),
+    // Permissions list
+    el('div',{style:{flex:1,overflowY:'auto',padding:'16px 14px'}},[
+      el('div',{style:{color:'#64748B',fontSize:'12px',marginBottom:'16px',lineHeight:'1.5'}},'Cada permiso se solicita la primera vez que una app lo necesita. Puedes cambiarlos en cualquier momento desde aquí.'),
+      el('div',{style:{display:'flex',flexDirection:'column',gap:'8px'}},
+        state.permissions.map((perm,i)=>{
+          const statusColors={pending:'#64748B',granted:'#10B981',denied:'#EF4444'};
+          const statusLabels={pending:'No solicitado',granted:'Permitido',denied:'Denegado'};
+          return el('button',{className:'perm-btn',style:{animation:`tIn 0.3s ease ${i*0.06}s both`},onClick:async()=>{
+            if(perm.status!=='granted'){
+              const result=await requestPermission(perm.id);
+              state.permissions=state.permissions.map(p=>p.id===perm.id?{...p,status:result}:p);
+              setState({permissions:state.permissions});
+            }
+          }},[
+            el('div',{style:{width:'42px',height:'42px',borderRadius:'12px',background:'rgba(255,255,255,0.04)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'20px',flexShrink:0}},perm.icon),
+            el('div',{style:{flex:1,minWidth:0}},[
+              el('div',{style:{display:'flex',alignItems:'center',gap:'8px'}},[
+                el('span',{style:{color:'#E2E8F0',fontSize:'13px',fontWeight:600}},perm.name),
+                perm.required?el('span',{style:{color:'#F59E0B',fontSize:'8px',fontWeight:700,background:'rgba(245,158,11,0.15)',padding:'1px 6px',borderRadius:'4px'}},'REQUERIDO'):null,
+              ]),
+              el('div',{style:{color:'#4B5563',fontSize:'10px',marginTop:'2px'}},perm.desc),
+            ]),
+            // Status indicator
+            el('div',{style:{display:'flex',flexDirection:'column',alignItems:'center',gap:'2px',flexShrink:0}},[
+              el('div',{style:{width:'10px',height:'10px',borderRadius:'50%',background:statusColors[perm.status],transition:'background 0.3s'}}),
+              el('div',{style:{color:statusColors[perm.status],fontSize:'8px',fontWeight:600}},statusLabels[perm.status]),
+            ]),
+          ]);
+        })
+      ),
+      // Info box
+      el('div',{style:{marginTop:'20px',padding:'14px',borderRadius:'12px',background:'rgba(139,92,246,0.06)',border:'1px solid rgba(139,92,246,0.12)'}},[
+        el('div',{style:{color:'#C4B5FD',fontSize:'12px',fontWeight:600,marginBottom:'6px'}},'¿Cómo funcionan las notificaciones?'),
+        el('div',{style:{color:'#64748B',fontSize:'11px',lineHeight:'1.6'}},'Cada app (Xanat, CVCard, Social Hub, etc.) envía sus notificaciones a través del sistema central de iKROX. La notificación muestra el icono y nombre de la app que la origina. Puedes silenciar apps individuales desde sus ajustes.'),
+      ]),
+    ]),
+  ]);
+}
+
+// ── Render: Search ──
+function renderSearch(){
+  if(!state.searchOpen)return null;
+  const results=state.searchQ.trim()?APPS.filter(a=>a.name.toLowerCase().includes(state.searchQ.toLowerCase())||a.tag.toLowerCase().includes(state.searchQ.toLowerCase())):[];
+  const overlay=el('div',{style:{position:'fixed',inset:0,zIndex:300,background:'rgba(5,8,18,0.97)',backdropFilter:'blur(30px)',animation:'fadeIn 0.15s ease',display:'flex',flexDirection:'column'}},[
+    el('div',{style:{padding:'14px 14px 0',display:'flex',alignItems:'center',gap:'10px'}},[
+      el('button',{style:{background:'rgba(255,255,255,0.06)',border:'none',color:'#94A3B8',fontSize:'18px',cursor:'pointer',width:'38px',height:'38px',borderRadius:'11px',display:'flex',alignItems:'center',justifyContent:'center'},onClick:()=>setState({searchOpen:false,searchQ:''})},'←'),
+      el('div',{style:{flex:1,display:'flex',alignItems:'center',background:'rgba(255,255,255,0.06)',border:'1px solid rgba(139,92,246,0.35)',borderRadius:'13px',padding:'0 12px',boxShadow:'0 0 24px rgba(139,92,246,0.08)'}},[
+        el('span',{style:{fontSize:'15px',opacity:0.45}},'🔍'),
+        (()=>{const inp=el('input',{style:{flex:1,background:'none',border:'none',outline:'none',color:'#E2E8F0',fontSize:'15px',fontWeight:400,padding:'13px 10px',fontFamily:"'Outfit',sans-serif"},placeholder:'Buscar apps, negocios, herramientas...'});inp.value=state.searchQ;inp.addEventListener('input',e=>setState({searchQ:e.target.value}));inp.addEventListener('keydown',e=>{if(e.key==='Escape')setState({searchOpen:false,searchQ:''});});setTimeout(()=>inp.focus(),50);return inp;})(),
+        state.searchQ?el('button',{style:{background:'rgba(255,255,255,0.1)',border:'none',color:'#94A3B8',fontSize:'11px',cursor:'pointer',width:'22px',height:'22px',borderRadius:'6px',display:'flex',alignItems:'center',justifyContent:'center'},onClick:()=>setState({searchQ:''})},'✕'):null,
+        el('button',{style:{background:'none',border:'none',cursor:'pointer',fontSize:'17px',marginLeft:'6px',opacity:0.45,padding:'4px'}},'🎤'),
+      ]),
+    ]),
+    el('div',{style:{flex:1,overflowY:'auto',padding:'14px'}},[
+      !state.searchQ.trim()?el('div',{style:{textAlign:'center',paddingTop:'50px'}},[el('div',{style:{fontSize:'36px',marginBottom:'10px',opacity:0.25}},'🔍'),el('div',{style:{color:'#374151',fontSize:'13px'}},'Escribe o habla para buscar')]):
+      results.length===0?el('div',{style:{textAlign:'center',paddingTop:'50px'}},[el('div',{style:{fontSize:'36px',marginBottom:'10px',opacity:0.25}},'🤷'),el('div',{style:{color:'#374151',fontSize:'13px'}},'Sin resultados para "'+state.searchQ+'"')]):
+      el('div',{style:{display:'flex',flexDirection:'column',gap:'3px'}},results.map((app,i)=>el('button',{className:'search-result',style:{animation:`tIn 0.25s ease ${i*0.04}s both`},onClick:()=>{setState({searchQ:'',searchOpen:false});handleTap(app);}},[
+        el('div',{style:{width:'42px',height:'42px',borderRadius:'11px',background:`linear-gradient(140deg,${app.gr[0]},${app.gr[1]})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'19px',flexShrink:0}},app.icon),
+        el('div',{style:{flex:1,minWidth:0}},[el('div',{style:{color:'#E2E8F0',fontSize:'13px',fontWeight:600}},app.name),el('div',{style:{color:'#4B5563',fontSize:'10px',marginTop:'1px',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}},app.tag)]),
+        el('span',{style:{color:'#1E293B',fontSize:'16px'}},'→'),
+      ])))
+    ]),
+  ]);
+  return overlay;
+}
+
+// ── Render: Constructor ──
+function renderConstructor(){
+  if(!state.showConstructor)return null;
+  const tab=state.constructorTab;
+  let content;
+  if(tab==='profiles'){
+    content=el('div',{style:{display:'flex',flexDirection:'column',gap:'10px'}},[
+      ...PROFILES.map((p,i)=>el('div',{style:{background:'rgba(255,255,255,0.025)',border:'1px solid rgba(255,255,255,0.05)',borderRadius:'14px',padding:'18px',display:'flex',alignItems:'flex-start',gap:'14px',animation:`tIn 0.4s ease ${0.2+i*0.07}s both`,cursor:'pointer'}},[
+        el('div',{style:{width:'46px',height:'46px',borderRadius:'13px',background:'rgba(139,92,246,0.08)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'22px',flexShrink:0}},p.icon),
+        el('div',{},[el('div',{style:{color:'#E2E8F0',fontSize:'14px',fontWeight:700}},p.title),el('div',{style:{color:'#4B5563',fontSize:'11px',lineHeight:'1.5',marginTop:'3px'}},p.desc)])])),
+      el('button',{style:{width:'100%',padding:'13px',background:'linear-gradient(135deg,#8B5CF6,#6D28D9)',border:'none',borderRadius:'13px',color:'#fff',fontSize:'14px',fontWeight:700,cursor:'pointer',marginTop:'6px',boxShadow:'0 8px 28px rgba(139,92,246,0.3)',fontFamily:'inherit'}},'Crear mi negocio →')]);
+  }else{
+    content=el('div',{style:{display:'flex',flexDirection:'column',gap:'12px'}},PLANS.map((plan,i)=>
+      el('div',{style:{background:plan.popular?'linear-gradient(135deg,rgba(139,92,246,0.07),rgba(139,92,246,0.02))':'rgba(255,255,255,0.018)',border:plan.popular?'1px solid rgba(139,92,246,0.28)':'1px solid rgba(255,255,255,0.05)',borderRadius:'16px',padding:'20px 18px',position:'relative',animation:`tIn 0.4s ease ${0.2+i*0.07}s both`}},[
+        plan.popular?el('div',{style:{position:'absolute',top:'-9px',right:'14px',background:'linear-gradient(135deg,#8B5CF6,#6D28D9)',color:'#fff',fontSize:'8px',fontWeight:800,padding:'3px 10px',borderRadius:'7px',letterSpacing:'0.5px'}},'POPULAR'):null,
+        el('div',{style:{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'12px'}},[el('div',{style:{color:'#E2E8F0',fontSize:'16px',fontWeight:700}},plan.name),el('div',{style:{textAlign:'right'}},[el('span',{style:{color:plan.color,fontSize:'24px',fontWeight:800}},plan.price),el('span',{style:{color:'#4B5563',fontSize:'10px'}},plan.period)])]),
+        el('div',{style:{display:'flex',flexDirection:'column',gap:'7px',marginBottom:'14px'}},plan.features.map(f=>el('div',{style:{display:'flex',alignItems:'center',gap:'7px'}},[el('span',{style:{color:plan.color,fontSize:'10px'}},'✓'),el('span',{style:{color:'#7B8494',fontSize:'11px'}},f)]))),
+        el('button',{style:{width:'100%',padding:'11px',background:plan.popular?`linear-gradient(135deg,${plan.color},${plan.color}CC)`:'rgba(255,255,255,0.05)',border:plan.popular?'none':'1px solid rgba(255,255,255,0.08)',borderRadius:'11px',color:'#fff',fontSize:'12px',fontWeight:600,cursor:'pointer',fontFamily:'inherit'}},plan.cta)])));
+  }
+  return el('div',{style:{position:'fixed',inset:0,zIndex:250,background:'#070B14',overflowY:'auto',animation:'slideRight 0.3s cubic-bezier(0.16,1,0.3,1)'}},[
+    el('div',{style:{position:'sticky',top:0,zIndex:10,background:'rgba(7,11,20,0.92)',backdropFilter:'blur(20px)',borderBottom:'1px solid rgba(255,255,255,0.05)',padding:'12px 14px',display:'flex',alignItems:'center',gap:'10px'}},[
+      el('button',{style:{background:'rgba(255,255,255,0.06)',border:'none',color:'#94A3B8',fontSize:'17px',cursor:'pointer',width:'34px',height:'34px',borderRadius:'9px',display:'flex',alignItems:'center',justifyContent:'center'},onClick:()=>setState({showConstructor:false})},'←'),
+      el('div',{},[el('div',{style:{color:'#F1F5F9',fontSize:'15px',fontWeight:700}},'🏗️ Constructor'),el('div',{style:{color:'#4B5563',fontSize:'10px'}},'Crea tu empresa digital')])]),
+    el('div',{style:{maxWidth:'500px',margin:'0 auto',padding:'20px 16px 60px'}},[
+      el('div',{style:{textAlign:'center',marginBottom:'32px',animation:'tIn 0.5s ease 0.1s both'}},[
+        el('div',{style:{fontSize:'40px',fontWeight:800,lineHeight:1.1,background:'linear-gradient(135deg,#8B5CF6,#06B6D4,#10B981)',WebkitBackgroundClip:'text',WebkitTextFillColor:'transparent',marginBottom:'10px'}},'Tu negocio. Tu plataforma.'),
+        el('p',{style:{color:'#4B5563',fontSize:'13px',lineHeight:'1.6',maxWidth:'360px',margin:'0 auto'}},'Crea tu punto de venta, tienda o empresa completa. Configura, personaliza y publica en ikrox.com')]),
+      el('div',{style:{display:'flex',gap:'3px',marginBottom:'24px',background:'rgba(255,255,255,0.025)',borderRadius:'11px',padding:'3px',animation:'tIn 0.5s ease 0.15s both'}},[
+        el('button',{className:'cat-btn',style:{flex:1,padding:'9px 0',borderRadius:'9px',background:tab==='profiles'?'rgba(139,92,246,0.14)':'transparent',border:tab==='profiles'?'1px solid rgba(139,92,246,0.28)':'1px solid transparent',color:tab==='profiles'?'#C4B5FD':'#4B5563',fontSize:'12px',fontWeight:600,fontFamily:'inherit'},onClick:()=>setState({constructorTab:'profiles'})},'Perfiles'),
+        el('button',{className:'cat-btn',style:{flex:1,padding:'9px 0',borderRadius:'9px',background:tab==='plans'?'rgba(139,92,246,0.14)':'transparent',border:tab==='plans'?'1px solid rgba(139,92,246,0.28)':'1px solid transparent',color:tab==='plans'?'#C4B5FD':'#4B5563',fontSize:'12px',fontWeight:600,fontFamily:'inherit'},onClick:()=>setState({constructorTab:'plans'})},'Planes y precios')]),
+      content])]);
+}
+
+// ── Render: App Modal ──
+function renderAppModal(){
+  if(!state.selectedApp)return null;
+  const app=state.selectedApp;
+  return el('div',{style:{position:'fixed',inset:0,zIndex:200,background:'rgba(0,0,0,0.75)',backdropFilter:'blur(20px)',display:'flex',alignItems:'center',justifyContent:'center',animation:'fadeIn 0.15s ease'},onClick:()=>setState({selectedApp:null})},[
+    el('div',{style:{background:'linear-gradient(160deg,#151B2E,#0C1021)',border:`1px solid ${app.gr[0]}30`,borderRadius:'22px',padding:'26px 22px',maxWidth:'360px',width:'88%',boxShadow:`0 20px 50px ${app.gr[0]}18`,animation:'tIn 0.25s ease'},onClick:e=>e.stopPropagation()},[
+      el('div',{style:{display:'flex',alignItems:'center',gap:'14px',marginBottom:'18px'}},[
+        el('div',{style:{width:'58px',height:'58px',borderRadius:'16px',background:`linear-gradient(140deg,${app.gr[0]},${app.gr[1]})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'28px'}},app.icon),
+        el('div',{},[el('div',{style:{color:'#F1F5F9',fontSize:'18px',fontWeight:700}},app.name),el('div',{style:{color:'#4B5563',fontSize:'11px',marginTop:'2px'}},app.tag)])]),
+      el('div',{style:{display:'flex',gap:'8px'}},[
+        el('button',{style:{flex:1,padding:'12px 0',borderRadius:'11px',background:app.status==='live'?`linear-gradient(135deg,${app.gr[0]},${app.gr[1]})`:'#1E293B',color:'#fff',border:'none',fontSize:'13px',fontWeight:600,cursor:app.status==='live'?'pointer':'default',opacity:app.status==='live'?1:0.5,fontFamily:'inherit'}},app.status==='live'?'Abrir':'Próximamente'),
+        el('button',{style:{padding:'12px 16px',borderRadius:'11px',background:'transparent',color:'#4B5563',border:'1px solid rgba(255,255,255,0.07)',fontSize:'13px',cursor:'pointer',fontFamily:'inherit'},onClick:()=>setState({selectedApp:null})},'Cerrar')])])]);
+}
+
+function handleTap(app){
+  if(app.id==='builder')setState({showConstructor:true});
+  else setState({selectedApp:app});
+}
+
+// ── Main Render ──
+function render(){
+  const root=document.getElementById('app');
+  root.innerHTML='';
+  const t=getTime();
+  const items=state.filter==='all'?APPS:APPS.filter(a=>a.cat===state.filter);
+
+  const bg=el('div',{style:{minHeight:'100vh',background:'radial-gradient(ellipse at 25% 15%,#12082a 0%,#0A0E1A 45%,#060810 100%)',position:'relative',overflow:'hidden'}},[
+    el('div',{style:{position:'absolute',top:'-15%',left:'-8%',width:'50%',height:'50%',background:'radial-gradient(circle,rgba(139,92,246,0.07) 0%,transparent 65%)',animation:'glow 9s ease-in-out infinite',pointerEvents:'none'}}),
+    el('div',{style:{position:'absolute',bottom:'-10%',right:'-8%',width:'45%',height:'45%',background:'radial-gradient(circle,rgba(6,182,212,0.05) 0%,transparent 65%)',animation:'glow 11s ease-in-out 3s infinite',pointerEvents:'none'}}),
+    el('div',{style:{position:'absolute',inset:0,opacity:0.015,pointerEvents:'none',backgroundImage:'radial-gradient(circle,#fff 1px,transparent 1px)',backgroundSize:'28px 28px'}}),
+    el('div',{style:{position:'relative',zIndex:10,maxWidth:'500px',margin:'0 auto',padding:state.showInstall?'12px 16px 100px':'12px 16px 40px',minHeight:'100vh',display:'flex',flexDirection:'column'}},[
+      renderTopBar(),
+      // Clock
+      el('div',{style:{textAlign:'center',marginBottom:'28px',animation:'tIn 0.5s ease 0.05s both'}},[
+        el('div',{style:{fontSize:'72px',fontWeight:200,color:'#E2E8F0',letterSpacing:'-4px',lineHeight:1,fontVariantNumeric:'tabular-nums'},innerHTML:`${t.h}<span style="opacity:0.25;font-weight:100">:</span>${t.m}`}),
+        el('div',{style:{fontSize:'13px',color:'#2D3340',fontWeight:400,textTransform:'capitalize',marginTop:'6px',letterSpacing:'0.3px'}},t.d)]),
+      // Featured
+      el('div',{style:{display:'flex',gap:'9px',marginBottom:'24px',overflowX:'auto',padding:'0 0 4px',animation:'tIn 0.5s ease 0.08s both'}},
+        APPS.filter(a=>a.featured).map(app=>{
+          const nc=state.notifications.filter(n=>n.app===app.id&&n.unread).length;
+          return el('button',{className:'featured-btn',style:{background:`linear-gradient(135deg,${app.gr[0]}12,${app.gr[1]}06)`,border:`1px solid ${app.gr[0]}20`,position:'relative'},onClick:()=>handleTap(app)},[
+            el('div',{style:{width:'34px',height:'34px',borderRadius:'9px',background:`linear-gradient(140deg,${app.gr[0]},${app.gr[1]})`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:'15px',position:'relative'}},[
+              document.createTextNode(app.icon),
+              nc>0?el('div',{className:'notif-badge',style:{top:'-5px',right:'-5px',minWidth:'14px',height:'14px',fontSize:'8px'}},String(nc)):null,
+            ]),
+            el('div',{style:{textAlign:'left'}},[
+              el('div',{style:{color:'#C9CDD3',fontSize:'11px',fontWeight:600}},app.name),
+              el('div',{style:{color:'#3B4252',fontSize:'9px'}},app.id==='builder'?'Crea tu negocio':app.status==='live'?'Abrir':'Pronto')])])})),
+      // Filters
+      el('div',{style:{display:'flex',gap:'6px',marginBottom:'18px',overflowX:'auto',animation:'tIn 0.5s ease 0.1s both'}},
+        CATS.map(c=>el('button',{className:'cat-btn',style:{background:state.filter===c.id?'rgba(139,92,246,0.14)':'rgba(255,255,255,0.025)',border:`1px solid ${state.filter===c.id?'rgba(139,92,246,0.28)':'rgba(255,255,255,0.04)'}`,color:state.filter===c.id?'#C4B5FD':'#3B4252',fontFamily:'inherit'},onClick:()=>setState({filter:c.id})},c.l))),
+      // Grid
+      el('div',{style:{display:'grid',gridTemplateColumns:'repeat(4,1fr)',gap:'2px',justifyItems:'center',flex:1}},items.map((app,i)=>renderTile(app,i))),
+      // Footer
+      el('div',{style:{textAlign:'center',marginTop:'auto',paddingTop:'36px',animation:'tIn 0.6s ease 0.6s both'}},[
+        el('div',{style:{color:'rgba(255,255,255,0.02)',fontSize:'8px',letterSpacing:'3px',fontWeight:600,textTransform:'uppercase'}},'Mawddi / iKROX Technologies')]),
+    ]),
+  ]);
+  root.appendChild(bg);
+
+  // Overlays
+  const search=renderSearch();if(search)root.appendChild(search);
+  const notifs=renderNotifications();if(notifs)root.appendChild(notifs);
+  const perms=renderPermissions();if(perms)root.appendChild(perms);
+  const constr=renderConstructor();if(constr)root.appendChild(constr);
+  const modal=renderAppModal();if(modal)root.appendChild(modal);
+
+  // Install banner
+  if(state.showInstall){
+    root.appendChild(el('div',{style:{position:'fixed',bottom:0,left:0,right:0,zIndex:150,background:'linear-gradient(135deg,#4F46E5ee,#7C3AEDee)',backdropFilter:'blur(20px)',padding:'13px 14px',display:'flex',alignItems:'center',justifyContent:'center',gap:'10px',animation:'slideUp 0.5s cubic-bezier(0.16,1,0.3,1)',borderTop:'1px solid rgba(255,255,255,0.1)'}},[
+      el('div',{style:{width:'36px',height:'36px',borderRadius:'10px',background:'rgba(255,255,255,0.12)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'16px'}},'⬡'),
+      el('div',{style:{flex:1}},[el('div',{style:{color:'#fff',fontSize:'12px',fontWeight:600}},'Instala iKROX'),el('div',{style:{color:'rgba(255,255,255,0.6)',fontSize:'9px'}},'Acceso directo')]),
+      el('button',{style:{background:'#fff',color:'#4F46E5',border:'none',padding:'7px 16px',borderRadius:'9px',fontSize:'11px',fontWeight:700,cursor:'pointer',fontFamily:'inherit'}},'Instalar'),
+      el('button',{style:{background:'none',border:'none',color:'rgba(255,255,255,0.35)',fontSize:'18px',cursor:'pointer'},onClick:()=>setState({showInstall:false})},'×')]));
+  }
+}
+
+// ── Init ──
+render();
+setInterval(render,60000);
+setInterval(()=>{try{document.querySelector('[data-clock]')&&render()}catch(e){}},1000);
+
+// ── Request notification permission on first load ──
+if('Notification' in window && Notification.permission==='default'){
+  setTimeout(()=>{
+    // Will be triggered when user interacts, not automatically
+    console.log('[iKROX] Notification permission pending — will request on first app interaction');
+  },2000);
+}
+
+// ── Service Worker registration stub ──
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('/sw.js').then(reg=>{
+      console.log('[iKROX] Service Worker registered:', reg.scope);
+    }).catch(e=>{
+      console.log('[iKROX] SW registration pending — sw.js not deployed yet');
+    });
+  });
+}
+</script>
+</body>
+</html>
